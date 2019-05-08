@@ -4,25 +4,28 @@
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
 #include <PubSubClient.h>         //https://github.com/knolleary/pubsubclient
-#include "WiFiManager.h"          //https://github.com/tzapu/WiFiManager
+#include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
 
 //const char* ssid = "........";
 //const char* password = "........";
 const char* mqtt_server = "broker.hivemq.com"; //https://www.hivemq.com/public-mqtt-broker/
-const char* UUID = "6bcdb172-b427-11e8-96f8-529269fb1459";
+const int mqtt_port = 1883;
+
+const char* UUID = "6bcdb172-b427-11e8-96f8-529269fb1459"; //https://www.uuidgenerator.net/
 const char* sub_topic = "/control";
 
+char mqtt_sub[50];
+
 WiFiClient espClient;
+WiFiManager wifiManager;
 PubSubClient client(espClient);
 
 const char* wifi_device_name = "Lampix";
-const char* wifi_device_pass = "iot_hangout_2";
+const char* wifi_device_pass = "iot_hangout";
 long lastMsg = 0;
 char msg[50];
 int value = 0;
-int gpio_pin = 2;
-
-WiFiManager wifiManager;
+int gpio_pin = 0;
 
 void configModeCallback (WiFiManager *myWiFiManager) {
   Serial.println("Entered config mode");
@@ -36,6 +39,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
+
   String message = "";
   for (int i = 0; i < length; i++) {
     message = message + String((char)payload[i]);
@@ -44,22 +48,21 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   if (message == "ON") {
-    digitalWrite(gpio_pin, LOW);
+    digitalWrite(gpio_pin, HIGH);
   }
   else if (message == "OFF") {
-    digitalWrite(gpio_pin, HIGH);
+    digitalWrite(gpio_pin, LOW);
   }
   else if (message == "reset_settings") {
-    digitalWrite(gpio_pin, HIGH);
+    wifiManager.resetSettings();
+    digitalWrite(gpio_pin, LOW);
 
-    for (int i = 0; i < 5; i++){
-      digitalWrite(gpio_pin, LOW);
-      delay(250);
+    for (int i = 0; i < 5; i++) {
       digitalWrite(gpio_pin, HIGH);
       delay(250);
-      }
-
-    wifiManager.resetSettings();
+      digitalWrite(gpio_pin, LOW);
+      delay(250);
+    }
     ESP.restart();
   }
 
@@ -81,7 +84,7 @@ void reconnect() {
       //client.publish("outTopic", "hello world");
 
       // ... and resubscribe
-      client.subscribe(UUID);
+      client.subscribe(mqtt_sub);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -95,8 +98,11 @@ void reconnect() {
 void setup() {
   Serial.begin(115200);
 
+  strcpy(mqtt_sub, UUID);
+  strcat(mqtt_sub, sub_topic);
+
   pinMode(gpio_pin, OUTPUT);
-  digitalWrite(gpio_pin, HIGH);
+  digitalWrite(gpio_pin, LOW);
 
   //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
   wifiManager.setAPCallback(configModeCallback);
@@ -115,22 +121,19 @@ void setup() {
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");
 
-  digitalWrite(gpio_pin, LOW);
-  delay(250);
-  digitalWrite(gpio_pin, HIGH);
-  delay(250);
-  digitalWrite(gpio_pin, LOW);
-  delay(250);
-  digitalWrite(gpio_pin, HIGH);
+  for (int i = 0; i < 2; i++) {
+    digitalWrite(gpio_pin, HIGH);
+    delay(250);
+    digitalWrite(gpio_pin, LOW);
+    delay(250);
+  }
 
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
-
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
   if (!client.connected()) {
     reconnect();
