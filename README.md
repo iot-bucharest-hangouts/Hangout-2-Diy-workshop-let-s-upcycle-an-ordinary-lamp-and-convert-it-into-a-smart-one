@@ -46,4 +46,5 @@ Veți găsi în locație toate uneltele și echipamentele necesare pentru acest 
 #Steps
 
 Connect the ESP8266 following the image:
+
 ![ESP8266 Bootloading mode](http://remotexy.com/img/help/help-esp8266-firmware-update-usbuart.png)
