@@ -42,3 +42,8 @@ Cost kit fara modul Wi-Fi: 100 lei (pentru participantii care au deja modulul de
 Veți găsi în locație toate uneltele și echipamentele necesare pentru acest workshop, cum ar fi șurubelnițe, pistoale de lipit sau de topit plastic.
 
 În a doua jumătate a serii vom povesti, vom face networking si vom avea pizza, sucuri si bere, oferite de gazdele evenimentului, Crowd Favorite.
+
+#Steps
+
+Connect the ESP8266 following the image:
+![ESP8266 Bootloading mode](https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiwpKOe44viAhUlMewKHf_JBhQQjRx6BAgBEAU&url=http%3A%2F%2Fremotexy.com%2Fen%2Fhelp%2Fesp8266-firmware-update%2F&psig=AOvVaw1P7wIcaTTB-3U2_sVk4AuH&ust=1557399459347814)
