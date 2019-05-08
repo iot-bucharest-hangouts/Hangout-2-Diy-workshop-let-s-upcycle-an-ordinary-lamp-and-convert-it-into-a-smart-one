@@ -66,3 +66,9 @@ Libraries:
 ```
 
 ##Upload the code on ESP8266
+
+#Controlling the LAMP via MQTT
+
+`Turning On: mosquitto_pub -t "6bcdb172-b427-11e8-96f8-529269fb1459/control" -h "broker.hivemq.com" -m ON`
+`Turning Off: mosquitto_pub -t "6bcdb172-b427-11e8-96f8-529269fb1459/control" -h "broker.hivemq.com" -m OFF`
+`Factory Reset: mosquitto_pub -t "6bcdb172-b427-11e8-96f8-529269fb1459/control" -h "broker.hivemq.com" -m reset_settings`
