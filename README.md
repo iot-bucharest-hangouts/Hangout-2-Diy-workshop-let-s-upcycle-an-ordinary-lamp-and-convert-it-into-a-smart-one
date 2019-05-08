@@ -45,6 +45,21 @@ Veți găsi în locație toate uneltele și echipamentele necesare pentru acest 
 
 #Steps
 
-Connect the ESP8266 following the image:
+##Connect the ESP8266 following the image:
 
 ![ESP8266 Bootloading mode](http://remotexy.com/img/help/help-esp8266-firmware-update-usbuart.png)
+
+##Install Arduino and ESP8266 libraries following the tutorial on https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
+
+##Download and install project dependencies
+
+Libraries:
+```
+<PubSubClient.h>              https://github.com/knolleary/pubsubclient
+<WiFiManager.h>               https://github.com/tzapu/WiFiManager
+#include <ESP8266WiFi.h>      https://github.com/esp8266/Arduino
+#include <DNSServer.h>        https://github.com/esp8266/Arduino
+#include <ESP8266WebServer.h> https://github.com/esp8266/Arduino
+```
+
+##Upload the code on ESP8266
