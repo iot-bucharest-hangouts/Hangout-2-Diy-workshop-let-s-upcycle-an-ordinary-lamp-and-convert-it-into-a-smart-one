@@ -43,6 +43,9 @@ Veți găsi în locație toate uneltele și echipamentele necesare pentru acest 
 
 În a doua jumătate a serii vom povesti, vom face networking si vom avea pizza, sucuri si bere, oferite de gazdele evenimentului, Crowd Favorite.
 
+#About ESP8266
+https://www.espressif.com/en/products/hardware/esp8266ex/overview
+
 #Steps
 
 ##Connect the ESP8266 following the image:
